@@ -1,3 +1,4 @@
+//Get elements from html
 let formButton = document.querySelector("#form-btn");
 let cardsButton = document.querySelector("#cards-btn");
 let mainContainer = document.querySelector(".main-container");
@@ -13,7 +14,7 @@ let closeButton=document.querySelector("#close");
 let formInput=document.querySelector("#formInput");
 let modalContent=document.querySelector(".modal-content");
 
-
+//Events
 formButton.addEventListener("click", loadForm);
 closeButton.addEventListener("click",closeModal);
 cardsButton.addEventListener("click", () => {
@@ -22,13 +23,15 @@ cardsButton.addEventListener("click", () => {
 
 txt.addEventListener("input",handleChange);
 submit.addEventListener("click",submitForm);
+window.onload = Run();
 
+//Close modal with x button
 function closeModal (e){
     e.preventDefault();
     modalContent.innerHTML="";
     modal.style.display="none";
 }
-
+//Submit form and open modal with Submit button
 function submitForm (e){
     e.preventDefault();
     modal.style.display="flex";
@@ -39,19 +42,19 @@ function submitForm (e){
        formInput.elements[i].value="";
     }
 }
-
+// get input-text value to the fetchCards function
 function handleChange(e){
     fetchCards(e.target.value);
 }
 
-window.onload = Run();
-
+//Clean main-container and run loadForm function
 function Run() {
     mainContainer.innerHTML = "";
     mainContainer.appendChild(sideBar);
     loadForm();
 }
 
+//load form and hide search-bar
 function loadForm() {
     mainContainer.innerHTML = "";
     mainContainer.appendChild(sideBar);
@@ -59,7 +62,7 @@ function loadForm() {
     searchBar.classList.add("hidden");
 
 }
-
+//get data from API with fetch, filter data for search-bar
 function fetchCards(q = '') {
     mainContainer.innerHTML = "";
     postWrapper.innerHTML = "";
@@ -71,15 +74,13 @@ function fetchCards(q = '') {
             if (q !== '') {
                 q=q.toLowerCase();
                 data = data.filter((x) => {
-                    console.log(x.title);
                     return x.title.toLowerCase().includes(q) || x.body.toLowerCase().includes(q)
                 });
-                console.log(data);
             }
             loadCards(data);
         });
 }
-
+//create max 10 cards for the content with createElement-appendChild methods
 function loadCards(data) {
     var length = data.length;
     if (length > 10) {
